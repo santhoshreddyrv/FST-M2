@@ -1,0 +1,29 @@
+--drop table
+drop table episodes;
+drop table episodeIV;
+
+--Activity1
+--creating the table 
+create table episodes (name string, line string)
+row format delimited fields terminated by '\t' TBLPROPERTIES ("skip.header.line.count"="2");
+
+--load all 3 text files into the table
+load data local inpath '/root/inputs/episodeIV_dialogues.txt' into table episodes;
+load data local inpath '/root/inputs/episodeV_dialogues.txt' into table episodes;
+load data local inpath '/root/inputs/episodeVI_dialogues.txt' into table episodes;
+
+--generate output and export it
+insert overwrite local directory '/root/HiveOutput1' row format delimited fields terminated by '\t'
+select name, count(name) as no_of_lines from episodes group by name order by no_of_lines desc ;
+
+-------------------------------------------------------------------------------------------
+--Activity2
+
+--for episode IV
+create table episodeIV(name string, line string)
+row format delimited fields terminated by '\t' TBLPROPERTIES ("skip.header.line.count"="2");
+load data local inpath '/root/inputs/episodeIV_dialogues.txt' into table episodeIV;
+
+insert overwrite local directory '/root/HiveOutput2'
+select count(*) from episodeIV where INSTR(line, 'Luke')>0;
+
