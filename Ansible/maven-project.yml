@@ -13,9 +13,9 @@
     - name: clone maven repo
       git:
         repo: https://github.com/training-support/FST_JUnit_Project.git
-        dest: /home/vinmayjagtap/FST_JUnit_Project
+        dest: /home/santhosh/FST_JUnit_Project
 
     - name: Run maven test
       command: mvn clean test
       args:
-        chdir: /home/vinmayjagtap/FST_JUnit_Project
+        chdir: /home/santhosh/FST_JUnit_Project
