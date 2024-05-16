@@ -1,0 +1,15 @@
+#build phase
+FROM node:18-alpine as builder
+WORKDIR /user/app
+COPY ./package.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+#Run phase
+FROM node:18-alpine
+WORKDIR /user/app
+COPY .package.json ./
+RUN npm install
+COPY --from=builder /user/app/dist ./
+CMD ["node","server.js"]
